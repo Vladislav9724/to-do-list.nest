@@ -3,10 +3,8 @@ import { Document, Types } from 'mongoose';
 
 export type TaskDocument = Tasks & Document;
 
-@Schema({ timestamps: true, _id: false })
+@Schema({ timestamps: true })
 export class Tasks {
-  @Prop({ type: Types.ObjectId })
-  _id: Types.ObjectId;
 
   @Prop()
   title: string;

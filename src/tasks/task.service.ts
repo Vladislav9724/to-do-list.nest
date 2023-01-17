@@ -13,7 +13,7 @@ export class TaskService {
   ) {}
 
   async getAll(): Promise<Tasks[]> {
-    return this.taskModel.find();
+    return this.taskModel.find().exec();
   }
 
   async getById(id: string): Promise<Tasks> {
@@ -24,10 +24,9 @@ export class TaskService {
     throw new BadRequestException('No task');
   }
 
-  async create(taskDto: CreateTasksDto, user: CreateUsersDto): Promise<Tasks> {
+  async create(taskDto: CreateTasksDto): Promise<Tasks> {
     const newTask = new this.taskModel({
       ...taskDto,
-      user,
     });
     return newTask.save();
   }
