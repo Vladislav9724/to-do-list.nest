@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { TaskDocument, Tasks } from './schemas/task.schema';
 import { CreateTasksDto } from './dto/create-tasks.dto';
 import { UpdateTasksDto } from './dto/update-tasks.dto';
+import { CreateUsersDto } from '../users/dto/create-users.dto';
 
 @Injectable()
 export class TaskService {
@@ -12,7 +13,7 @@ export class TaskService {
   ) {}
 
   async getAll(): Promise<Tasks[]> {
-    return this.taskModel.find().exec();
+    return this.taskModel.find();
   }
 
   async getById(id: string): Promise<Tasks> {
@@ -23,8 +24,11 @@ export class TaskService {
     throw new BadRequestException('No task');
   }
 
-  async create(taskDto: CreateTasksDto): Promise<Tasks> {
-    const newTask = new this.taskModel(taskDto);
+  async create(taskDto: CreateTasksDto, user: CreateUsersDto): Promise<Tasks> {
+    const newTask = new this.taskModel({
+      ...taskDto,
+      user,
+    });
     return newTask.save();
   }
 
