@@ -13,11 +13,9 @@ export class UsersService {
   ) {}
 
   async getUsers(): Promise<Users[]> {
-    return this.userModule
-      .find()
-      .populate('tasks', null, Tasks.name)
-      .exec();
+    return this.userModule.find().exec();
   }
+
   async getUserById(id: string): Promise<Users> {
     const user = await this.userModule.findById(id);
     if (user) {

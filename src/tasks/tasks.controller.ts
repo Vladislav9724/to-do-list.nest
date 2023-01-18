@@ -11,7 +11,6 @@ import { TaskService } from './task.service';
 import { CreateTasksDto } from './dto/create-tasks.dto';
 import { UpdateTasksDto } from './dto/update-tasks.dto';
 import { Tasks } from './schemas/task.schema';
-import { CreateUsersDto } from '../users/dto/create-users.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -28,10 +27,8 @@ export class TasksController {
   }
 
   @Post()
-  create(
-    @Body() createTasksDto: CreateTasksDto,
-  ): Promise<Tasks> {
-        return this.tasksService.create(createTasksDto);
+  create(@Body() createTasksDto: CreateTasksDto): Promise<Tasks> {
+    return this.tasksService.create(createTasksDto);
   }
 
   @Delete(':id')
