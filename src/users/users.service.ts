@@ -4,16 +4,18 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Users, UsersDocument } from './schemas/users.schema';
 import { CreateUsersDto } from './dto/create-users.dto';
 import { UpdateUsersDto } from './dto/update-useras.dto';
+import { Tasks } from '../tasks/schemas/task.schema';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectModel(Users.name) private userModule: Model<UsersDocument>,
+    @InjectModel(Users.name) private readonly userModule: Model<UsersDocument>,
   ) {}
 
   async getUsers(): Promise<Users[]> {
     return this.userModule.find().exec();
   }
+
   async getUserById(id: string): Promise<Users> {
     const user = await this.userModule.findById(id);
     if (user) {
@@ -43,5 +45,9 @@ export class UsersService {
       return userUpdate;
     }
     throw new BadRequestException('The user is missing');
+  }
+
+  async getUserTasks(id: string) {
+    await this.userModule.find().populate('tasks', null, Tasks.name).exec();
   }
 }

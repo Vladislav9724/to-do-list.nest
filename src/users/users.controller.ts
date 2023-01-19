@@ -21,10 +21,10 @@ export class UsersController {
     return this.usersService.getUsers();
   }
 
-  @Get(':id')
-  async getUserId(@Param('id') id: string): Promise<Users> {
-    return this.usersService.getUserById(id);
-  }
+  // @Get(':id')
+  // async getUserId(@Param('id') id: string): Promise<Users> {
+  //   return this.usersService.getUserById(id);
+  // }
 
   @Post()
   async createUser(@Body() createUserDto: CreateUsersDto): Promise<Users> {
@@ -42,5 +42,9 @@ export class UsersController {
     @Param('id') id: string,
   ): Promise<Users> {
     return this.usersService.updateUser(id, updateUser);
+  }
+  @Get(':id')
+  async getUserTask(@Param('id') id: string) {
+    return this.usersService.getUserTasks(id);
   }
 }
