@@ -1,17 +1,15 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
-export type AddressDocument = Address & Document
+export type AddressDocument = Address & Document;
 
 @Schema()
-export  class Address {
+export class Address {
+  @Prop()
+  city: string;
 
   @Prop()
-  city: string
-
-  @Prop()
-  street: string
-
+  street: string;
 }
 
-export const AddressSchema = SchemaFactory.createForClass(Address)
+export const AddressSchema = SchemaFactory.createForClass(Address);

@@ -1,8 +1,8 @@
-import { IsString } from "class-validator";
+import { IsString } from 'class-validator';
 
-export class UserAddressDto{
+export class UserAddressDto {
   @IsString()
-  city: string
+  city: string;
   @IsString()
-  street: string
+  street: string;
 }

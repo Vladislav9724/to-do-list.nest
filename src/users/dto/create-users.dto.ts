@@ -1,6 +1,12 @@
-import { IsEmail, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
-import { UserAddressDto } from "./user-address.dto";
-import { Type } from "class-transformer";
+import {
+  IsEmail,
+  IsNumber,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { UserAddressDto } from './user-address.dto';
+import { Type } from 'class-transformer';
 
 export class CreateUsersDto {
   @IsString({ message: 'Must be a string type' })
@@ -15,8 +21,7 @@ export class CreateUsersDto {
   @IsEmail()
   readonly email: string;
   @IsOptional()
-  @ValidateNested({each: true})
+  @ValidateNested({ each: true })
   @Type(() => UserAddressDto)
-  readonly address: UserAddressDto
-
+  readonly address: UserAddressDto;
 }

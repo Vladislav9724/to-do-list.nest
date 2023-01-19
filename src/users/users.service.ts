@@ -4,16 +4,16 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Users, UsersDocument } from './schemas/users.schema';
 import { CreateUsersDto } from './dto/create-users.dto';
 import { UpdateUsersDto } from './dto/update-useras.dto';
-import { TaskDocument, Tasks } from "../tasks/schemas/task.schema";
-import { Address, AddressDocument } from "./schemas/address.schema";
+import { TaskDocument, Tasks } from '../tasks/schemas/task.schema';
+import { Address, AddressDocument } from './schemas/address.schema';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(Users.name) private readonly userModule: Model<UsersDocument>,
-    @InjectModel(Address.name) private readonly addressModule: Model<AddressDocument>,
-    @InjectModel(Tasks.name) private readonly tasksModule: Model<TaskDocument>
-
+    @InjectModel(Address.name)
+    private readonly addressModule: Model<AddressDocument>,
+    @InjectModel(Tasks.name) private readonly tasksModule: Model<TaskDocument>,
   ) {}
 
   async getUsers(): Promise<Users[]> {
@@ -23,19 +23,18 @@ export class UsersService {
   async getUserById(id: string): Promise<any> {
     const user = await this.userModule.findById(id).populate('address');
     if (user) {
-      const task = await this.tasksModule.find().exec()
-      return {user, task};
+      const task = await this.tasksModule.find().exec();
+      return { user, task };
     }
     throw new BadRequestException('The user is missing');
-
   }
 
   async createUser(userDto: CreateUsersDto): Promise<Users> {
-    const address = await this.userModule.findById(userDto.address)
+    const address = await this.userModule.findById(userDto.address);
 
     const newUser = new this.userModule({
       ...userDto,
-      address: address
+      address: address,
     });
     return newUser.save();
   }
