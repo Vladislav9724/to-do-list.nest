@@ -12,7 +12,7 @@ export class CreateTasksDto {
   readonly title: string;
 
   @IsString({ message: 'Must be a string type' })
-  @Length(2, 300, { message: 'Not less than 2 not more than 7' })
+  @Length(2, 300, { message: 'Not less than 2 not more than 300' })
   readonly body: string;
 
   @IsOptional()
