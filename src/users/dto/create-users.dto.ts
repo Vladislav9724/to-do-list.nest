@@ -20,6 +20,7 @@ export class CreateUsersDto {
 
   @IsEmail()
   readonly email: string;
+
   @IsOptional()
   @ValidateNested({ each: true })
   @Type(() => UserAddressDto)

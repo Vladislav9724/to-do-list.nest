@@ -23,18 +23,15 @@ export class UsersService {
   async getUserById(id: string): Promise<any> {
     const user = await this.userModule.findById(id).populate('address');
     if (user) {
-      const task = await this.tasksModule.find().exec();
+      const task = await this.tasksModule.find({ author: user }).exec();
       return { user, task };
     }
     throw new BadRequestException('The user is missing');
   }
 
   async createUser(userDto: CreateUsersDto): Promise<Users> {
-    const address = await this.userModule.findById(userDto.address);
-
     const newUser = new this.userModule({
       ...userDto,
-      address: address,
     });
     return newUser.save();
   }
