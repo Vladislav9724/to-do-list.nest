@@ -19,6 +19,10 @@ export class Tasks {
   @Prop({ type: mongooseSchema.Types.ObjectId, ref: Users.name })
   @Type(() => Users)
   author: Users;
+
+  _id: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export const TasksSchema = SchemaFactory.createForClass(Tasks);

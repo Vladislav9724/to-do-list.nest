@@ -1,4 +1,4 @@
-import { IsBoolean, IsOptional, IsString, Length } from "class-validator";
+import { IsBoolean, IsOptional, IsString, Length } from 'class-validator';
 
 export class UpdateTasksDto {
   @IsOptional()
@@ -14,5 +14,4 @@ export class UpdateTasksDto {
   @IsOptional()
   @IsBoolean({ message: 'Must be a boolean type' })
   readonly isCompleted?: boolean;
-
 }

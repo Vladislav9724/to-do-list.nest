@@ -6,6 +6,8 @@ import { CreateUsersDto } from './dto/create-users.dto';
 import { UpdateUsersDto } from './dto/update-useras.dto';
 import { TaskDocument, Tasks } from '../tasks/schemas/task.schema';
 import { Address, AddressDocument } from './schemas/address.schema';
+import { UsersMapper } from './users.mapper';
+import { UserDto } from './dto/userDto';
 
 @Injectable()
 export class UsersService {
@@ -16,15 +18,24 @@ export class UsersService {
     @InjectModel(Tasks.name) private readonly tasksModule: Model<TaskDocument>,
   ) {}
 
-  async getUsers(): Promise<Users[]> {
-    return this.userModule.find().populate('address').exec();
+  async getUsers(): Promise<UserDto[]> {
+    const users = await this.userModule.find().populate('address');
+    const arrUsersTasks = [];
+    for await (const user of users) {
+      const tasks = await this.tasksModule.find({ author: user }).exec();
+      const userMapper = UsersMapper.toDto(user, tasks);
+      arrUsersTasks.push(userMapper);
+    }
+
+    return arrUsersTasks;
   }
 
-  async getUserById(id: string): Promise<any> {
+  async getUserById(id: string): Promise<UserDto> {
     const user = await this.userModule.findById(id).populate('address');
     if (user) {
       const task = await this.tasksModule.find({ author: user }).exec();
-      return { user, task };
+      const userDto = UsersMapper.toDto(user, task);
+      return userDto;
     }
     throw new BadRequestException('The user is missing');
   }
@@ -33,6 +44,7 @@ export class UsersService {
     const newUser = new this.userModule({
       ...userDto,
     });
+
     return newUser.save();
   }
 

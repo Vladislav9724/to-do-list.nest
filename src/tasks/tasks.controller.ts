@@ -11,18 +11,19 @@ import { TaskService } from './task.service';
 import { CreateTasksDto } from './dto/create-tasks.dto';
 import { UpdateTasksDto } from './dto/update-tasks.dto';
 import { Tasks } from './schemas/task.schema';
+import { TaskDto } from './dto/task.dto';
 
 @Controller('tasks')
 export class TasksController {
   constructor(private readonly tasksService: TaskService) {}
 
   @Get()
-  getAll(): Promise<Tasks[]> {
+  getAll(): Promise<TaskDto[]> {
     return this.tasksService.getAll();
   }
 
   @Get(':id')
-  getOne(@Param('id') id: string): Promise<Tasks> {
+  getOne(@Param('id') id: string): Promise<TaskDto> {
     return this.tasksService.getById(id);
   }
 
@@ -40,7 +41,7 @@ export class TasksController {
   update(
     @Body() updateTasks: UpdateTasksDto,
     @Param('id') id: string,
-  ): Promise<Tasks> {
+  ): Promise<TaskDto> {
     return this.tasksService.update(id, updateTasks);
   }
 }
