@@ -37,11 +37,7 @@ export class TaskService {
         author: user,
       });
 
-      // const taskMapper = TasksMapper.toCreateEntity(newTask)
-
-      // console.log(taskMapper)
       return newTask.save();
-      // return TasksMapper.toDto(taskMapper)
     }
     throw new BadRequestException('No task');
   }

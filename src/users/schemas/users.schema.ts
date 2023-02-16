@@ -2,7 +2,6 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { Address, AddressSchema } from './address.schema';
 import { Type } from 'class-transformer';
-import { IsOptional } from 'class-validator';
 
 export type UsersDocument = Users & Document;
 
