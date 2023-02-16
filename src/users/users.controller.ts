@@ -11,18 +11,19 @@ import { UsersService } from './users.service';
 import { CreateUsersDto } from './dto/create-users.dto';
 import { UpdateUsersDto } from './dto/update-useras.dto';
 import { Users } from './schemas/users.schema';
+import { UserDto } from './dto/userDto';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  async getUsers(): Promise<Users[]> {
+  async getUsers(): Promise<UserDto[]> {
     return this.usersService.getUsers();
   }
 
   @Get(':id')
-  async getUserId(@Param('id') id: string): Promise<Users> {
+  async getUserId(@Param('id') id: string): Promise<UserDto> {
     return this.usersService.getUserById(id);
   }
 

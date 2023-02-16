@@ -5,6 +5,8 @@ import { TaskDocument, Tasks } from './schemas/task.schema';
 import { CreateTasksDto } from './dto/create-tasks.dto';
 import { UpdateTasksDto } from './dto/update-tasks.dto';
 import { Users, UsersDocument } from '../users/schemas/users.schema';
+import { TasksMapper } from './tasks.mapper';
+import { TaskDto } from './dto/task.dto';
 
 @Injectable()
 export class TaskService {
@@ -13,14 +15,16 @@ export class TaskService {
     @InjectModel(Users.name) private userModel: Model<UsersDocument>,
   ) {}
 
-  async getAll(): Promise<Tasks[]> {
-    return this.taskModel.find().populate('author').exec();
+  async getAll(): Promise<TaskDto[]> {
+    const tasks = await this.taskModel.find().populate('author').exec();
+    return tasks.map(TasksMapper.toDto);
   }
 
-  async getById(id: string): Promise<Tasks> {
+  async getById(id: string): Promise<TaskDto> {
     const task = await this.taskModel.findById(id).populate('author');
     if (task) {
-      return task;
+      const taskMapper = TasksMapper.toDto(task);
+      return taskMapper;
     }
     throw new BadRequestException('No task');
   }
@@ -32,6 +36,7 @@ export class TaskService {
         ...taskDto,
         author: user,
       });
+
       return newTask.save();
     }
     throw new BadRequestException('No task');
@@ -45,12 +50,12 @@ export class TaskService {
     throw new BadRequestException('No task');
   }
 
-  async update(id: string, taskDto: UpdateTasksDto): Promise<Tasks> {
+  async update(id: string, taskDto: UpdateTasksDto): Promise<TaskDto> {
     const taskUpdate = await this.taskModel.findByIdAndUpdate(id, taskDto, {
       new: true,
     });
     if (taskUpdate) {
-      return taskUpdate;
+      return TasksMapper.toDto(taskUpdate);
     }
     throw new BadRequestException('no task');
   }

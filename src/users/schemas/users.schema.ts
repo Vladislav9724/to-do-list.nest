@@ -22,6 +22,10 @@ export class Users {
   @Prop({ type: AddressSchema })
   @Type(() => Address)
   address: Address;
+
+  createdAt: Date;
+  updatedAt: Date;
+  _id: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(Users);
