@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUsersDto } from './dto/create-users.dto';
@@ -18,8 +19,11 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  async getUsers(): Promise<UserDto[]> {
-    return this.usersService.getUsers();
+  async getUsers(
+    @Query('limit') limit: number,
+    @Query('page') page: number,
+  ): Promise<UserDto[]> {
+    return this.usersService.getUsers({ limit, page });
   }
 
   @Get(':id')

@@ -18,8 +18,14 @@ export class UsersService {
     @InjectModel(Tasks.name) private readonly tasksModule: Model<TaskDocument>,
   ) {}
 
-  async getUsers(): Promise<UserDto[]> {
-    const users = await this.userModule.find().populate('address');
+  async getUsers({ limit, page }): Promise<UserDto[]> {
+    const skip = limit * page;
+    const users = await this.userModule
+      .find()
+      .sort({ _id: 1 })
+      .skip(skip)
+      .limit(limit)
+      .populate('address');
     const arrUsersTasks = [];
     for await (const user of users) {
       const tasks = await this.tasksModule.find({ author: user }).exec();
