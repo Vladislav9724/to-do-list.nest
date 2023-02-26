@@ -1,4 +1,4 @@
-import { IsNumber } from 'class-validator';
+import { IsNumber, IsOptional } from "class-validator";
 
 export class TaskDto {
   readonly id: string;
@@ -9,10 +9,10 @@ export class TaskDto {
   readonly updatedAt: Date;
 
   @IsNumber()
-  @IsNumber()
+  @IsOptional()
   readonly page: number;
 
   @IsNumber()
-  @IsNumber()
+  @IsOptional()
   readonly limit: number;
 }
