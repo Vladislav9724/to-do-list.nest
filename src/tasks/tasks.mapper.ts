@@ -10,6 +10,8 @@ export class TasksMapper {
       isCompleted: entity.isCompleted,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
+      page: entity.page,
+      limit: entity.limit,
     };
   }
 }

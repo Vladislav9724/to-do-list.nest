@@ -12,6 +12,8 @@ export class UsersMapper {
       tasks: tasks.map((task) => TasksMapper.toDto(task)),
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
+      page: entity.page,
+      limit: entity.limit,
     };
   }
 }
