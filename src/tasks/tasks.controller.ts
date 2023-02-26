@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTasksDto } from './dto/create-tasks.dto';
@@ -18,8 +19,11 @@ export class TasksController {
   constructor(private readonly tasksService: TaskService) {}
 
   @Get()
-  getAll(): Promise<TaskDto[]> {
-    return this.tasksService.getAll();
+  getAll(
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+  ): Promise<TaskDto[]> {
+    return this.tasksService.getAll({ page, limit });
   }
 
   @Get(':id')

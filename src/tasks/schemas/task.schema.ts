@@ -23,6 +23,8 @@ export class Tasks {
   _id: string;
   createdAt: Date;
   updatedAt: Date;
+  page: number;
+  limit: number;
 }
 
 export const TasksSchema = SchemaFactory.createForClass(Tasks);
