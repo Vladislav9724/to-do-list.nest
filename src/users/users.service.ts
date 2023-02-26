@@ -8,6 +8,7 @@ import { TaskDocument, Tasks } from '../tasks/schemas/task.schema';
 import { Address, AddressDocument } from './schemas/address.schema';
 import { UsersMapper } from './users.mapper';
 import { UserDto } from './dto/userDto';
+import { PaginationUsersDto } from './dto/pagination-users.dto';
 
 @Injectable()
 export class UsersService {
@@ -18,7 +19,10 @@ export class UsersService {
     @InjectModel(Tasks.name) private readonly tasksModule: Model<TaskDocument>,
   ) {}
 
-  async getUsers({ limit, page }): Promise<UserDto[]> {
+  async getUsers({
+    limit = 5,
+    page = 0,
+  }: PaginationUsersDto): Promise<UserDto[]> {
     const skip = limit * page;
     const users = await this.userModule
       .find()
