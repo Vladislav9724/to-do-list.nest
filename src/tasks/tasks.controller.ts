@@ -7,12 +7,14 @@ import {
   Post,
   Put,
   Query,
+  ValidationPipe,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTasksDto } from './dto/create-tasks.dto';
 import { UpdateTasksDto } from './dto/update-tasks.dto';
 import { Tasks } from './schemas/task.schema';
 import { TaskDto } from './dto/task.dto';
+import { PaginationTasksDto } from './dto/pagination-tasks.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -20,10 +22,11 @@ export class TasksController {
 
   @Get()
   getAll(
-    @Query('page') page: number,
-    @Query('limit') limit: number,
+    @Query(ValidationPipe) params: PaginationTasksDto,
   ): Promise<TaskDto[]> {
-    return this.tasksService.getAll({ page, limit });
+    const { page, limit } = params;
+
+    return this.tasksService.getAll(page, limit);
   }
 
   @Get(':id')

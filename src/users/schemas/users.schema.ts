@@ -26,8 +26,6 @@ export class Users {
   createdAt: Date;
   updatedAt: Date;
   _id: string;
-  page: number;
-  limit: number;
 }
 
 export const UserSchema = SchemaFactory.createForClass(Users);

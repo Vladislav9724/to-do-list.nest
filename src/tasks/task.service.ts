@@ -7,7 +7,6 @@ import { UpdateTasksDto } from './dto/update-tasks.dto';
 import { Users, UsersDocument } from '../users/schemas/users.schema';
 import { TasksMapper } from './tasks.mapper';
 import { TaskDto } from './dto/task.dto';
-import { PaginationTasksDto } from './dto/pagination-tasks.dto';
 
 @Injectable()
 export class TaskService {
@@ -16,11 +15,8 @@ export class TaskService {
     @InjectModel(Users.name) private userModel: Model<UsersDocument>,
   ) {}
 
-  async getAll({
-    limit = 5,
-    page = 0,
-  }: PaginationTasksDto): Promise<TaskDto[]> {
-    const skip = page * limit;
+  async getAll(page: number = 0, limit: number = 2): Promise<TaskDto[]> {
+    const skip: any = page * limit;
     const tasks = await this.taskModel
       .find()
       .sort({ _id: 1 })

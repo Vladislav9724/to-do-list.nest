@@ -1,11 +1,13 @@
-import { IsNumber, IsOptional } from 'class-validator';
+import { IsNumber, Min } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class PaginationUsersDto {
   @IsNumber()
-  @IsOptional()
+  @Type(() => Number)
   readonly page: number;
 
   @IsNumber()
-  @IsOptional()
+  @Type(() => Number)
+  @Min(2)
   readonly limit: number;
 }
