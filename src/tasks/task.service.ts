@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Query } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { TaskDocument, Tasks } from './schemas/task.schema';
 import { CreateTasksDto } from './dto/create-tasks.dto';
@@ -15,8 +15,16 @@ export class TaskService {
     @InjectModel(Users.name) private userModel: Model<UsersDocument>,
   ) {}
 
-  async getAll(): Promise<TaskDto[]> {
-    const tasks = await this.taskModel.find().populate('author').exec();
+  async getAll(page: number = 0, limit: number = 2): Promise<TaskDto[]> {
+    const skip: any = page * limit;
+    const tasks = await this.taskModel
+      .find()
+      .sort({ _id: 1 })
+      .skip(skip)
+      .limit(limit)
+      .populate('author')
+      .exec();
+
     return tasks.map(TasksMapper.toDto);
   }
 
