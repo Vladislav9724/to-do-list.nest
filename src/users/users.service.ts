@@ -13,8 +13,7 @@ import { UserDto } from './dto/userDto';
 export class UsersService {
   constructor(
     @InjectModel(Users.name) private readonly userModule: Model<UsersDocument>,
-    @InjectModel(Address.name)
-    private readonly addressModule: Model<AddressDocument>,
+    @InjectModel(Address.name)private readonly addressModule: Model<AddressDocument>,
     @InjectModel(Tasks.name) private readonly tasksModule: Model<TaskDocument>,
    ) {}
 

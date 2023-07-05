@@ -8,8 +8,7 @@ import {
   Put,
   Query,
   ValidationPipe,
-  UseGuards
-} from '@nestjs/common';
+  } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUsersDto } from './dto/create-users.dto';
 import { UpdateUsersDto } from './dto/update-useras.dto';
