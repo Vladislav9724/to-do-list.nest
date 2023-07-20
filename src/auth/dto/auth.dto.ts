@@ -1,4 +1,9 @@
-export class SingInDto{
-  name: string
-  password: string
+import { IsString } from "class-validator";
+
+export class SingInDto {
+
+  username: string;
+
+  @IsString()
+  password: string;
 }
