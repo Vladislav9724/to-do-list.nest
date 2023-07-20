@@ -18,6 +18,32 @@ export class UsersService {
     @InjectModel(Tasks.name) private readonly tasksModule: Model<TaskDocument>,
   ) {}
 
+  private readonly users = [
+    {
+      userId: 1,
+      username: 'john',
+      password: '1234',
+    },
+    {
+      userId: 2,
+      name: 'maria',
+      password: '1234',
+    },
+  ];
+  async findOne(name: string): Promise<any> {
+    return this.users.find((users) => users.name === name);
+  }
+
+  async createAuthUser(name: string, password: string) {
+    return this.userModule.create({
+      name,
+      password,
+    });
+  }
+  async getUserAuth(query: object) {
+    return this.userModule.findOne(query);
+  }
+
   async getUsers(page: number = 0, limit: number = 2): Promise<UserDto[]> {
     const skip = page * limit;
     const users = await this.userModule
@@ -52,6 +78,9 @@ export class UsersService {
     });
 
     return newUser.save();
+  }
+  async findByEmail(email: string) {
+    return this.userModule.findOne({ email: email });
   }
 
   async removeUserById(id: string): Promise<Users> {
