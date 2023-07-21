@@ -1,8 +1,8 @@
-import { IsString } from "class-validator";
+import { IsString } from 'class-validator';
 
 export class SingInDto {
-
-  username: string;
+  @IsString()
+  email: string;
 
   @IsString()
   password: string;

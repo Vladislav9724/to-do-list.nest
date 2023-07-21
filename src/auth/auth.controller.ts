@@ -1,32 +1,27 @@
-import {
-  Body,
-  Controller,
-  Post,
-  HttpCode,
-  HttpStatus,
-  UseGuards,
-  Get,
-  Request,
-} from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthGuard } from './auth.guard';
-import { Public } from '../publik/public.decorator';
-import { SingInDto } from "./dto/auth.dto";
+import { SingInDto } from './dto/auth.dto';
+import { CreateUsersDto } from '../users/dto/create-users.dto';
+import { AuthUserResponse } from './dto/auth-user.response';
+import { JwtAuthGuard } from './guards/jwt.guard';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Public()
-  @HttpCode(HttpStatus.OK)
-  @Post('login')
-  signIn(@Body() signInDto: SingInDto) {
-    return this.authService.signIn(signInDto.username, signInDto.password);
+  @Post('register')
+  register(@Body() dto: CreateUsersDto): Promise<CreateUsersDto> {
+    return this.authService.registerUsers(dto);
   }
 
-  @UseGuards(AuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
+  @Post('login')
+  login(@Body() dto: SingInDto): Promise<AuthUserResponse> {
+    return this.authService.loginUser(dto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('test')
+  test() {
+    return true;
   }
 }
