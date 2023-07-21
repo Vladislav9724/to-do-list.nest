@@ -9,6 +9,7 @@ import { Tasks, TasksSchema } from '../tasks/schemas/task.schema';
 @Module({
   controllers: [UsersController],
   providers: [UsersService],
+  exports: [UsersService, UsersModule],
   imports: [
     MongooseModule.forFeature([
       { name: Users.name, schema: UserSchema },

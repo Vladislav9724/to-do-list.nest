@@ -19,6 +19,9 @@ export class Users {
   @Prop()
   email: string;
 
+  @Prop()
+  password: string;
+
   @Prop({ type: AddressSchema })
   @Type(() => Address)
   address: Address;

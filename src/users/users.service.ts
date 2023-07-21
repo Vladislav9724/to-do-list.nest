@@ -18,6 +18,10 @@ export class UsersService {
     @InjectModel(Tasks.name) private readonly tasksModule: Model<TaskDocument>,
   ) {}
 
+  async findUserByEmail(email: string) {
+    return this.userModule.findOne({ email: email });
+  }
+
   async getUsers(page: number = 0, limit: number = 2): Promise<UserDto[]> {
     const skip = page * limit;
     const users = await this.userModule
@@ -74,5 +78,12 @@ export class UsersService {
 
   async getUserTasks(id: string) {
     await this.userModule.find().populate('tasks', null, Tasks.name).exec();
+  }
+
+  async publicUser(email: string) {
+    return this.userModule.findOne({
+      where: { email },
+      attributes: { exclude: ['password'] },
+    });
   }
 }
